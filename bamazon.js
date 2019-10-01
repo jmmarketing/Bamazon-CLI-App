@@ -3,7 +3,7 @@ var inquirer = require("inquirer");
 var connectionInfo = require("./connection_info");
 var mysql = require("mysql");
 var connection = mysql.createConnection(connectionInfo.connection);
-var itemIDs =[];
+var itemIDs = [];
 
 // --------------- CONNECTS TO THE BAMAZON DATABASE & INITIALIZES APP -------------
 connection.connect(function (err) {
@@ -19,8 +19,8 @@ function showProductTable() {
         if (err) throw err;
 
         // ------------ Used for Validation in Inquirer ------------
-        for (var i = 0; i < res.length; i++){
-           itemIDs.push(res[i].item_id);
+        for (var i = 0; i < res.length; i++) {
+            itemIDs.push(res[i].item_id);
         }
         // ----------------------------------------------------------
 
@@ -30,7 +30,7 @@ function showProductTable() {
         customerAction();
     });
 
-    
+
 };
 
 
@@ -57,6 +57,39 @@ function customerAction() {
             message: "How Many Would You Like To Buy?"
         }
     ]).then(function (answer) {
+
+        //------------------- GRABS the Item from the Database -------------------------
+        connection.query("SELECT * FROM products WHERE ?", { item_id: answer.item_selected }, function (err, res) {
+            if (err) throw err;
+            var updateItem = res[0];
+
+
+            // ---------------- Checks to See if Stock is Available -------------------
+            if (answer.item_quantity <= updateItem.stock_quantity) {
+                var itemName = updateItem.product_name;
+                var itemCost = answer.item_quantity * updateItem.price;
+                var newStockQuantity = updateItem.stock_quantity - answer.item_quantity;
+                connection.query("UPDATE products SET ? WHERE ?",
+                    [{
+                        stock_quantity: newStockQuantity
+                    },
+                    {
+                        item_id: answer.item_selected
+                    }
+                    ], function (err) {
+                        if (err) throw err;
+                        console.log("\n------------------------ You Bought It! ---------------------\n");
+                        console.log("Summary: Your Purchase of " + itemName + " Cost $" + itemCost + ".")
+                        console.log("\n--------------------------------------------------------------\n")
+
+                        showProductTable();
+                    })
+            } else {
+                console.log("\n------------------------------\n Insufficient Inventory, Try Again! \n-------------------------------\n")
+                showProductTable();
+            }
+
+        })
 
     })
 }
