@@ -13,6 +13,9 @@ connection.connect(function (err) {
 
 });
 
+
+
+
 // -------------------- FUNCTION TO SHOW PRODUCT TABLE -------------------
 function showProductTable() {
     connection.query("SELECT * FROM products", function (err, res) {
