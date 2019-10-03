@@ -31,3 +31,9 @@ Open up your terminal (or bash). Navigate to the where you have saved the files.
 node bamazonmanager.js
 ```
 From there you will be prompted with your options. 
+
+## Database Schema
+To see how to set up your database for this app, Use the [schema.sql](https://github.com/jmmarketing/Bamazon-CLI-App/blob/master/schema.sql). It will also give you dummy data to load into your table as well. 
+
+### Contributor
+This app was created by [Jeff McLean](http://jeffreymclean.com). 
