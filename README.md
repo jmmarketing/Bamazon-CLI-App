@@ -16,10 +16,6 @@ Watch Video - https://youtu.be/MPL4M3vypjw
 We have three main modules that are used:
 '''
 var inquirer = require("inquirer");
-'''
-'''
 var mysql = require("mysql");
-'''
-'''
 require("dotenv").config();
 '''
