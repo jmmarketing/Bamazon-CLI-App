@@ -14,8 +14,8 @@ Watch Video - https://youtu.be/MPL4M3vypjw
 
 ## Required Modules
 We have three main modules that are used:
-
-'var inquirer = require("inquirer");'
-'var mysql = require("mysql");'
-'require("dotenv").config();'
-
+```
+var inquirer = require("inquirer");
+var mysql = require("mysql");
+require("dotenv").config();
+```
